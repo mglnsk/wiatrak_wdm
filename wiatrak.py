@@ -1,6 +1,3 @@
-import time
-
-
 PICTURE_PATH = "/tmp/current_picture.jpg"
 # ze specyfikacji dla Camera Module 3
 # https://www.raspberrypi.com/documentation/accessories/camera.html
@@ -19,7 +16,9 @@ def main_loop(cam, model, motor_x, motor_y):
 
 
     result = model(PICTURE_PATH)[0]
-    xywhn = result.boxes.xywhn
+    # TODO filter only humans
+    # TODO handle no results
+    xywhn = result.boxes.xywhn[0]
     # xywhn zawiera współrzędne znormalizowane (od 0 do 1)
     # x = 1 oznacza przesunięcie 0.5*66=33 stopni w prawo
     # y = 1 oznacza przesunięcie 0.5*41=20.5 stopni w dół
@@ -35,14 +34,8 @@ def main_loop(cam, model, motor_x, motor_y):
 
     # obrót x
     if abs_steps_x >= 2:
-        motor_x.driver_enable()
-        motor_x.stepper_step(0.001, abs_steps_x, dir_x)
-        time.sleep(1)
-        motor_x.driver_disable()
+        motor_x.step(abs_steps_x, dir_x)
 
     # obrót y
     if abs_steps_y >= 2:
-        motor_y.driver_enable()
-        motor_y.stepper_step(0.001, abs_steps_y, dir_y)
-        time.sleep(1)
-        motor_y.driver_disable()
+        motor_y.step(abs_steps_y, dir_y)
