@@ -16,9 +16,15 @@ def main_loop(cam, model, motor_x, motor_y):
 
 
     result = model(PICTURE_PATH)[0]
-    # TODO filter only humans
-    # TODO handle no results
-    xywhn = result.boxes.xywhn[0]
+
+    object_types = result.boxes.cls.int()
+    object_xywhn = result.boxes.xywhn
+    filtered_xywhn = [xy for (type_id, xy) in zip(object_types, object_xywhn) if type_id == 0]
+    if len(filtered_xywhn) < 1:
+        print("No valid targets")
+        return
+    xywhn = filtered_xywhn[0]
+
     # xywhn zawiera współrzędne znormalizowane (od 0 do 1)
     # x = 1 oznacza przesunięcie 0.5*66=33 stopni w prawo
     # y = 1 oznacza przesunięcie 0.5*41=20.5 stopni w dół
