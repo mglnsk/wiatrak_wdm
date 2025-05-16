@@ -1,4 +1,5 @@
 from gpiozero import OutputDevice
+import time
 
 class StepperMotor():
     def __init__(self, pin_enable, pin_direction, pin_step):
@@ -7,10 +8,10 @@ class StepperMotor():
         self.pin_step = OutputDevice(pin_step)
 
     def driver_enable(self):
-        self.pin_enable = 0
+        self.pin_enable.value = 0
 
     def driver_disable(self):
-        self.pin_enable = 1
+        self.pin_enable.value = 1
 
     def stepper_step(self, delay, steps, direction):
         self.pin_direction.value = direction

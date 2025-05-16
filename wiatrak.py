@@ -1,7 +1,4 @@
-from picamzero import Camera
-from ultralytics import YOLO
 import time
-from motor import StepperMotor
 
 
 PICTURE_PATH = "/tmp/current_picture.jpg"
@@ -25,7 +22,7 @@ def main_loop(cam, model, motor_x, motor_y):
     xywhn = result.boxes.xywhn
     # xywhn zawiera współrzędne znormalizowane (od 0 do 1)
     # x = 1 oznacza przesunięcie 0.5*66=33 stopni w prawo
-    # y = 1 oznacza przesunięcie 0.5*41=20.5 stopni w prawo
+    # y = 1 oznacza przesunięcie 0.5*41=20.5 stopni w dół
     diff_x = (xywhn[0] - CENTER_OFFSET_XY[0]) * HORIZONTAL_FOV # degrees
     diff_y = (xywhn[1] - CENTER_OFFSET_XY[1]) * VERTICAL_FOV # degrees
 
