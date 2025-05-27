@@ -1,15 +1,17 @@
+from conf import FAN_SPEED, CENTER_OFFSET_XY
 PICTURE_PATH = "/tmp/current_picture.jpg"
 # ze specyfikacji dla Camera Module 3
 # https://www.raspberrypi.com/documentation/accessories/camera.html
 VERTICAL_FOV = 41 # degrees
 HORIZONTAL_FOV = 66 # degrees
-CENTER_OFFSET_XY = (0.5, 0.5)
 
 # ze specyfikacji silnika krokowego
 # https://botland.store/stepper-motors/3610-stepper-motor-jk42hs40-0504-200-stepsrotations-12v05a043nm-5904422332013.html
 ROTATION_RES = 1.8 # degrees
 
-def main_loop(cam, model, motor_x, motor_y):
+def main_loop(cam, model, motor_x, motor_y, motor_dc):
+    motor_dc.forward(speed=FAN_SPEED)
+
     cam.start_preview()
     cam.take_photo(PICTURE_PATH)
     cam.stop_preview()

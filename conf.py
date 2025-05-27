@@ -1,0 +1,2 @@
+CENTER_OFFSET_XY = (0.5, 0.5)
+FAN_SPEED = 1.0
